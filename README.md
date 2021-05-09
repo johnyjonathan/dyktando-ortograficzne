@@ -12,3 +12,16 @@ Plik `settings.py` należy zamienić po stronie klineta i serwera (mają być id
 ## Uruchomienie aplikacji
   Aplikację uruchamiamy po stronie klienta za pomocą pliku `main.py`.
 Polecenie w bash: `python3 main.py`
+
+## Potrzebne pakiety (doinstalowanie)
+Przy wykorzystaniu `pip3 install nazwa_pakietu`
+### Strona klienta:
+* Kivy
+* paramiko
+* scp
+### Strona serwera:
+* paramiko
+* enchant
+* pexpect
+* scp
+* dominate

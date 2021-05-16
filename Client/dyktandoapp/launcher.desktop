@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Dyktando
+Version=v0.8.5
+Exec=python3 home/michal/dyktandoapp/main.py
+Terminal=True
+Type=Application

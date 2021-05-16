@@ -1,0 +1,52 @@
+body{
+  background-color: #ece4db;
+}
+#main_txt {
+  margin: auto;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  width: 60%;
+  border: 2px solid silver;
+  padding: 10px;
+  background-color: #d8e2dc;
+  height: 100vh;
+  display: block;
+
+}
+h2 {
+  margin: auto;
+  display: block;
+  width: 50%;
+  margin-top: 10vh;
+  text-align: center;
+}
+.author{
+  margin: auto;
+  display: block;
+  width: 25%;
+  margin-top: 5vh;
+  font-style: oblique;
+  margin-bottom: 10vh;
+  text-align: center;
+}
+
+.tekst{
+  margin-top: 15vh;
+  margin:auto;
+  width: 90%;
+  font-style: oblique;
+  text-align: justify;
+  text-justify: inter-word;
+}
+hr{
+  margin:auto;
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  border: 1px solid #ffd7ba;
+  width: 95%;
+}
+.mistakes{
+  display: block;
+  margin-bottom: 10px;
+
+}

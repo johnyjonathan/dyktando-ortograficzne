@@ -22,7 +22,37 @@ def generateTemplate(fileToRead, mistakes):
         tmp = (b/a) * 100
         return tmp
 
+    def removeSigns(text):
+        for x in range(len(text)):
+            if ',' in text[x]:
+                text[x] = text[x].replace(',','')
+            if '.' in text[x]:
+                text[x] = text[x].replace('.','')
+            if '\n' in text[x]:
+                text[x] = text[x].replace('\n','')
+            if '!' in text[x]:
+                text[x] = text[x].replace('!','')
+            if '?' in text[x]:
+                text[x] = text[x].replace('?','')
+            if ':' in text[x]:
+                text[x] = text[x].replace(':','')
+
+            x += 1
+        return text
+
+    def errorsReplace(tekst, errors):
+        for i in range(len(tekst)):
+            for k in range(len(errors)):
+                if errors[k] == tekst[i]:
+                    tekst[i] = "<u>"+tekst[i]+"</u>"
+        return tekst
+
+
     text, author = getString(text_path)
+
+    split_text = text.split(' ')
+    txt = removeSigns(split_text)
+    txt_u = errorsReplace(txt, mistakes)
 
     counter = count(text, mistakes)
 
@@ -35,7 +65,7 @@ def generateTemplate(fileToRead, mistakes):
     with doc:
         with div(id="main_txt"):
             h2('Treść dyktanda')
-            div(p(text), _class='tekst')
+            div(p(txt_u), _class='tekst')
             div(p(author), _class='author')
 
         with div(cls="mistakes").add(ol()):

@@ -5,7 +5,14 @@ def generateTemplate(fileToRead, mistakes):
 
     text_path = fileToRead
 
-    def getString(path_txt_file):
+    def errorsReplace(tekst, errors):
+        for i in range(len(tekst)):
+            for k in range(len(errors)):
+                if errors[k] in tekst[i]:
+                    tekst[i] = "*"+tekst[i]+"*"
+        return tekst
+
+    def getString(path_txt_file, mistakes):
         file = open(path_txt_file,'r',encoding='utf8')
         lines = file.readlines()
         author = lines[len(lines)-1]
@@ -14,7 +21,9 @@ def generateTemplate(fileToRead, mistakes):
         for line in lines:
             string += line
 
-        return string, author
+        txt_u = errorsReplace(string, mistakes)
+
+        return txt_u, author
 
     def count(text, mistakes):
         a = len(text)
@@ -40,21 +49,17 @@ def generateTemplate(fileToRead, mistakes):
             x += 1
         return text
 
-    def errorsReplace(tekst, errors):
-        for i in range(len(tekst)):
-            for k in range(len(errors)):
-                if errors[k] == tekst[i]:
-                    tekst[i] = "<u>"+tekst[i]+"</u>"
-        return tekst
 
 
-    text, author = getString(text_path)
 
-    split_text = text.split(' ')
-    txt = removeSigns(split_text)
-    txt_u = errorsReplace(txt, mistakes)
+    text, author = getString(text_path, mistakes)
 
-    counter = count(text, mistakes)
+
+    #split_text = tekst.split(' ')
+    #txt = removeSigns(split_text)
+
+
+    #counter = count(text, mistakes)
 
     doc = document(title="Wyniki")
 
@@ -65,17 +70,13 @@ def generateTemplate(fileToRead, mistakes):
     with doc:
         with div(id="main_txt"):
             h2('Treść dyktanda')
-            div(p(txt_u), _class='tekst')
+            div(p(text), _class='tekst')
             div(p(author), _class='author')
 
         with div(cls="mistakes").add(ol()):
             p('Popełnione błędy')
             for i in mistakes:
                 li(i)
-
-        with div(cls="percent"):
-            p('%s procent błędnych wyrazów względem całego tekstu.'% counter)
-
 
 
     with open('result.html','w') as f:

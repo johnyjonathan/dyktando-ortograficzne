@@ -73,16 +73,37 @@ def sendBackToClient(ssh):
         scp.put(path.resultsScpFromServerPath,path.resultsScpToClientPath)
         pass
 
+def setErrors(file, wrong_words):
+    with open(file,"r") as f:
+        text = f.readlines()
+    i = 0
+    for i in range(len(text)):
+        for x in range(len(wrong_words)):
+            if wrong_words[x] in text[i]:
+                text[i] = text[i].replace(wrong_words[x], " * "+wrong_words[x]+" * ")
+        i =+ 1
+
+    with open("new_wynik.txt","w") as f:
+        f.writelines(text)
+        f.close()
+    pass
+
+
 
 
 language = 'pl_PL'
 fileToRead = 'dyktando.txt'
+fileToHtml = 'new_wynik.txt'
 textFromFile = readWords(fileToRead)
 textToCheck = removeSigns(textFromFile)
 
 wynik = checkTextIsCorrect(textToCheck, getTheDictionary(language))
 
-generateTemplate(fileToRead, wynik)
+new_text = setErrors(fileToRead, wynik)
+
+setErrors(fileToRead, wynik)
+
+generateTemplate(fileToHtml, wynik)
 
 ssh = createSSHClient(ip.ClientIP, '22', ip.ClientName, ip.ClientPass)
 sendBackToClient(ssh)

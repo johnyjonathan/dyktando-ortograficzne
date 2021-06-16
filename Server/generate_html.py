@@ -1,18 +1,11 @@
 from dominate import document
 from dominate.tags import *
-
+from dominate.util import text
 def generateTemplate(fileToRead, mistakes):
 
     text_path = fileToRead
 
-    def errorsReplace(tekst, errors):
-        for i in range(len(tekst)):
-            for k in range(len(errors)):
-                if errors[k] in tekst[i]:
-                    tekst[i] = "*"+tekst[i]+"*"
-        return tekst
-
-    def getString(path_txt_file, mistakes):
+    def getString(path_txt_file):
         file = open(path_txt_file,'r',encoding='utf8')
         lines = file.readlines()
         author = lines[len(lines)-1]
@@ -21,9 +14,7 @@ def generateTemplate(fileToRead, mistakes):
         for line in lines:
             string += line
 
-        txt_u = errorsReplace(string, mistakes)
-
-        return txt_u, author
+        return string, author
 
     def count(text, mistakes):
         a = len(text)
@@ -31,52 +22,29 @@ def generateTemplate(fileToRead, mistakes):
         tmp = (b/a) * 100
         return tmp
 
-    def removeSigns(text):
-        for x in range(len(text)):
-            if ',' in text[x]:
-                text[x] = text[x].replace(',','')
-            if '.' in text[x]:
-                text[x] = text[x].replace('.','')
-            if '\n' in text[x]:
-                text[x] = text[x].replace('\n','')
-            if '!' in text[x]:
-                text[x] = text[x].replace('!','')
-            if '?' in text[x]:
-                text[x] = text[x].replace('?','')
-            if ':' in text[x]:
-                text[x] = text[x].replace(':','')
-
-            x += 1
-        return text
-
-
-
-
-    text, author = getString(text_path, mistakes)
-
-
-    #split_text = tekst.split(' ')
-    #txt = removeSigns(split_text)
-
+    text, author = getString(text_path)
 
     #counter = count(text, mistakes)
 
     doc = document(title="Wyniki")
 
     with doc.head:
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css", integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO",crossorigin="anonymous")
+        meta(charset="utf-8", name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
         link(rel="stylesheet", href="style.css")
-
-
     with doc:
         with div(id="main_txt"):
-            h2('Treść dyktanda')
+            h2('Dyktando ortograficzne')
+            div(h5(author), _class='author')
             div(p(text), _class='tekst')
-            div(p(author), _class='author')
+            hr()
+            with div(cls="mistakes").add(ol()):
+                h5('Popełnione błędy')
+                for i in mistakes:
+                    li(i)
 
-        with div(cls="mistakes").add(ol()):
-            p('Popełnione błędy')
-            for i in mistakes:
-                li(i)
+
+
 
 
     with open('result.html','w') as f:
